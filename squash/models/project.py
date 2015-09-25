@@ -18,3 +18,6 @@ class Project(db.Model):
         db.UnicodeText,
         unique=True,
     )
+    access_token = Column(
+        db.UnicodeText,
+    )
