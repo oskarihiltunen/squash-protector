@@ -29,14 +29,12 @@ DEBUG = 'DEBUG' in os.environ
 SERVER_NAME = os.environ['SERVER_NAME']
 DOMAIN = SERVER_NAME
 
-
 #
 # Celery
 # ------
 
 RABBITMQ_URL = os.environ['CLOUDAMQP_URL']
 BROKER_URL = RABBITMQ_URL
-
 
 #
 # SQLAlchemy
