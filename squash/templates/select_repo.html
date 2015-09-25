@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <form method="POST" action="">
+    {{ form.csrf_token }}
+    {{ form.repo.label }}
+    {{ form.repo }}
+    <input type="submit" value="Add">
+  </form>
+{% endblock %}

@@ -15,7 +15,7 @@ from sqlalchemy.exc import SAWarning
 from sqlalchemy.orm.exc import NoResultFound
 from werkzeug.contrib.fixers import ProxyFix
 
-from .extensions import celery, db
+from .extensions import celery, db, github
 
 warnings.simplefilter('error', SAWarning)
 
@@ -54,10 +54,13 @@ class Application(Flask):
         """Initialize and configure Flask extensions with this application."""
         celery.config_from_object(self.config)
         db.init_app(self)
+        github.init_app(self)
 
     def _init_views(self):
-        from .views import events
+        from .views import auth, events, pages
+        self.register_blueprint(auth, url_prefix='/auth')
         self.register_blueprint(events)
+        self.register_blueprint(pages)
 
     def _init_errorhandlers(self):
         @self.errorhandler(400)

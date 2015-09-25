@@ -21,6 +21,13 @@ PROJECT_ROOT = os.path.abspath(
 # ------
 
 CELERY_IGNORE_RESULT = True
-CELERY_ACCEPT_CONTENT = ['json']
+CELERY_ACCEPT_CONTENT = ['customjson']
 CELERY_INCLUDE = ['squash.tasks']
-CELERY_TASK_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'customjson'
+
+#
+# GitHub
+# ------
+
+GITHUB_CLIENT_ID = os.environ['GITHUB_CLIENT_ID']
+GITHUB_CLIENT_SECRET = os.environ['GITHUB_CLIENT_SECRET']

@@ -7,10 +7,9 @@
     environment running on Heroku.
 """
 
-import json
 import os
 
-from .base import *  # flake8: noqa
+from .base import *  # noqa
 
 #
 # Generic
@@ -28,6 +27,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = 'DEBUG' in os.environ
 
 SERVER_NAME = os.environ['SERVER_NAME']
+DOMAIN = SERVER_NAME
 
 
 #

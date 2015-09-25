@@ -25,6 +25,7 @@ SECRET_KEY = 'development key'
 DEBUG = True
 
 SERVER_NAME = os.environ.get('SERVER_NAME', 'localhost:5000')
+DOMAIN = SERVER_NAME
 
 
 #
