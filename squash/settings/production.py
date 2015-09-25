@@ -33,8 +33,8 @@ DOMAIN = SERVER_NAME
 # Celery
 # ------
 
-RABBITMQ_URL = os.environ['CLOUDAMQP_URL']
-BROKER_URL = RABBITMQ_URL
+REDIS_URL = os.environ['REDISCLOUD_URL']
+BROKER_URL = REDIS_URL
 
 #
 # SQLAlchemy
