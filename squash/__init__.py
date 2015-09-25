@@ -56,7 +56,8 @@ class Application(Flask):
         db.init_app(self)
 
     def _init_views(self):
-        pass
+        from .views import events
+        self.register_blueprint(events)
 
     def _init_errorhandlers(self):
         @self.errorhandler(400)
