@@ -1,0 +1,6 @@
+if [[ $FLASK_ENV == "production" ]]
+then
+  bin/start-nginx gunicorn --config=gunicorn.conf.py 'squash:Application()'
+else
+  python manage.py runserver
+fi
