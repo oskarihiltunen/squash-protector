@@ -1,6 +1,6 @@
 from flask import abort, Blueprint, redirect, url_for
 
-from squash.extensions import db, github
+from squash.extensions import github
 
 blueprint = Blueprint('auth', __name__)
 

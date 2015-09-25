@@ -1,5 +1,4 @@
 from flask import abort, Blueprint, current_app, request
-from sqlalchemy.exc import StatementError
 
 from squash.models import Project
 from squash.tasks import check_commits
@@ -43,5 +42,5 @@ def receive(project_id):
     validate_request(request)
     data = get_data(request)
     if data.pop('action') in ('opened', 'synchronize'):
-        check_commits.delay(project.id, project.repo, **data)
+        check_commits.delay(project.id, **data)
     return '', 204
