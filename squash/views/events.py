@@ -8,7 +8,7 @@ blueprint = Blueprint('events', __name__)
 
 def validate_request(request):
     event = request.headers.get('X-GitHub-Event')
-    if event != 'pull_request':
+    if event not in ('pull_request', 'ping'):
         current_app.logger.warning('Incorrect X-GitHub-Event %r', event)
         abort(400)
     content_type = request.content_type
@@ -33,6 +33,27 @@ def get_data(request):
         abort(400)
 
 
+def handle_pull_request(project, request):
+    data = get_data(request)
+    if data.pop('action') in ('opened', 'synchronize'):
+        check_commits.delay(project.id, **data)
+        return '', 202
+    return '', 204
+
+
+def handle_ping(project, request):
+    return '', 204
+
+
+def handle_request(project, request):
+    handlers = {
+        'pull_request': handle_pull_request,
+        'ping': handle_ping,
+    }
+    event = request.headers['X-GitHub-Event']
+    return handlers[event](project, request)
+
+
 @blueprint.route('/<project_id>', methods=['POST'])
 def receive(project_id):
     project = Project.query.get(project_id)
@@ -40,7 +61,4 @@ def receive(project_id):
         current_app.logger.warning('Unknown project %r', project_id)
         abort(404)
     validate_request(request)
-    data = get_data(request)
-    if data.pop('action') in ('opened', 'synchronize'):
-        check_commits.delay(project.id, **data)
-    return '', 204
+    return handle_request(project, request)
