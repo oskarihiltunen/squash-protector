@@ -80,6 +80,8 @@ class Application(Flask):
 
         @self.errorhandler(500)
         def internal_error(error):
+            import traceback
+            traceback.print_exc()
             return jsonify(title='Internal server error.'), 500
 
     def _init_after_request_handlers(self):

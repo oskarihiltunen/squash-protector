@@ -7,7 +7,10 @@ blueprint = Blueprint('auth', __name__)
 
 @blueprint.route('/login')
 def login():
-    return github.authorize(scope='repo:status,write:repo_hook')
+    # For public repos repo:status,write:repo_hook would be enough,
+    # but with those permissions fetching the commits fails in private
+    # repos.
+    return github.authorize(scope='repo')
 
 
 @blueprint.route('/github-callback')

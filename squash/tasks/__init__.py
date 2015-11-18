@@ -53,6 +53,7 @@ def _fetch_commits(project, commits_url):
     return github.get(
         commits_url[len(github.base_url):],
         access_token=project.access_token,
+        all_pages=True,
     )
 
 

@@ -14,7 +14,7 @@ def index():
 
 @blueprint.route('/select-repo/<token>', methods=['GET', 'POST'])
 def select_repo(token):
-    repos = github.get('user/repos', access_token=token)
+    repos = github.get('user/repos', access_token=token, all_pages=True)
     form = RepoForm.create(
         repos=[
             (repo['full_name'], repo['full_name'])
