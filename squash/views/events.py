@@ -62,3 +62,9 @@ def receive(project_id):
         abort(404)
     validate_request(request)
     return handle_request(project, request)
+
+
+@blueprint.route('/keep-alive')
+def keep_alive():
+    count = Project.query.count()
+    return str(count), 200

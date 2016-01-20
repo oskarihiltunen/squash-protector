@@ -8,6 +8,8 @@
 """
 import os
 
+import celery.schedules
+
 #
 # Paths
 # -----
@@ -24,6 +26,13 @@ CELERY_IGNORE_RESULT = True
 CELERY_ACCEPT_CONTENT = ['customjson']
 CELERY_INCLUDE = ['squash.tasks']
 CELERY_TASK_SERIALIZER = 'customjson'
+CELERYBEAT_SCHEDULE = {
+    'keep_database_connection_alive': {
+        'task': 'squash.tasks.keep_database_connection_alive',
+        # Every 5 minutes.
+        'schedule': celery.schedules.crontab(minute='*/1')
+    },
+}
 
 #
 # GitHub

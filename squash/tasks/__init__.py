@@ -1,4 +1,5 @@
-from flask import current_app
+import requests
+from flask import current_app, url_for
 from flask.ext.github import GitHubError
 from sqlalchemy.exc import IntegrityError
 
@@ -71,3 +72,12 @@ def _get_status(commits):
         return 'failure'
     else:
         return 'success'
+
+
+@celery.task
+def keep_database_connection_alive():
+    # Keep web db connection alive.
+    url = url_for('events.keep_alive', _external=True)
+    requests.get(url)
+    # Keep Celery db connection alive.
+    print('{} projects'.format(Project.query.count()))
