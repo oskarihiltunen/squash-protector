@@ -7,8 +7,7 @@
     environments.
 """
 import os
-
-import celery.schedules
+from datetime import timedelta
 
 #
 # Paths
@@ -22,6 +21,8 @@ PROJECT_ROOT = os.path.abspath(
 # Celery
 # ------
 
+PING_TASK_FREQUENCY = timedelta(seconds=int(os.environ.get('PING_TASK_FREQUENCY', '60')))
+
 CELERY_IGNORE_RESULT = True
 CELERY_ACCEPT_CONTENT = ['customjson']
 CELERY_INCLUDE = ['squash.tasks']
@@ -29,8 +30,7 @@ CELERY_TASK_SERIALIZER = 'customjson'
 CELERYBEAT_SCHEDULE = {
     'keep_database_connection_alive': {
         'task': 'squash.tasks.keep_database_connection_alive',
-        # Every 5 minutes.
-        'schedule': celery.schedules.crontab(minute='*/1')
+        'schedule': PING_TASK_FREQUENCY,
     },
 }
 
